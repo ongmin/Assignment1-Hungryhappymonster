@@ -13,8 +13,8 @@ monsterImage1.onload = function () {
   monsterHeight = monsterImage1.height
 }
 
-monsterImage1.src = 'spikymonster1_small.png'
-monsterImage2.src = 'spikymonster2_small.png'
+monsterImage1.src = 'images/spikymonster1_small.png'
+monsterImage2.src = 'images/spikymonster2_small.png'
 
 // Draw enemy sun
 var angrysunImage1 = new Image();
@@ -28,8 +28,8 @@ angrysunImage1.onload = function () {
   angrysunHeight = angrysunImage1.height
 }
 
-angrysunImage1.src = "spikeMan_walk1.png"
-angrysunImage2.src = "spikeMan_walk2.png"
+angrysunImage1.src = "images/spikeMan_walk1.png"
+angrysunImage2.src = "images/spikeMan_walk2.png"
 
 //Checks the width and height of the canvas
 var maxX = canvas.width
