@@ -18,7 +18,6 @@
     "watch-js": "watchify game/game.js --outfile dist/game.js --transform babelify --verbose"
     },
 
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ongmin/Assignment1-Hungryhappymonster.git"
