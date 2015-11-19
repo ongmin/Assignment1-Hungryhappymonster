@@ -1,79 +1,75 @@
-var canvas = document.querySelector('#gamecanvas')
-var context = canvas.getContext("2d");
+/* global Image */
 
-//Loads the monster image at position 0,0
-var monsterImage1 = new Image();
-var monsterImage2 = new Image()
+var canvas = document.querySelector('#gamecanvas1')
+var context = canvas.getContext('2d')
 
-//When image1 loads, begin render function and also check for image width and height
-//Since both monsterImage1 and monsterImage2 are the same size, no need to check again
-monsterImage1.onload = function () {
-  render();
-  monsterWidth = monsterImage1.width
-  monsterHeight = monsterImage1.height
-}
-
-monsterImage1.src = "spikymonster1_small.png"
-monsterImage2.src = "spikymonster2_small.png"
-
-//Checks the width and height of the canvas
 var maxX = canvas.width
 var maxY = canvas.height
 
-//Defines the starting position of x-position and y-position of monsterImage1
-var xPos = 100
-var yPos = 100
+var minX = 0
+var minY = 0
 
-//Defines the beginning width and height of the monsters so you have a starting point
-var monsterWidth = 80
-var monsterHeight = 80
+var actors = []
 
-//Provides an image frame to change animations
-var imageFrame = 1
+var monsterImage1 = new Image()
+monsterImage1.src = 'images/spikymonster1_small.png'
+var monsterImage2 = new Image()
+monsterImage2.src = 'images/spikymonster2_small.png'
 
-//The actual function that draws the objects onto the canvas
-function render () {
-  // Clear canvas
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  // In this instance, we do not have to draw background because its already in css.
-  // Code below first draws the monster then switch monster photo to animate
-  if (imageFrame === 1) {
-    context.drawImage(monsterImage1, xPos, yPos)
-    imageFrame = 2
-  } else {
-    context.drawImage(monsterImage2, xPos, yPos)
-    imageFrame = 1
+class Monster {
+  constructor (x, y, image = monsterImage1) {
+    this.x = maxX - this.width
+    this.y = maxY - this.height
+    this.image = image
+    this.width = image.width
+    this.height = image.height
+  }
+  render () {
+    var imageFrame = 1
+    if (imageFrame === 1) {
+      context.drawImage(this.image, this.x, this.y)
+      imageFrame = 2
+    } else {
+      context.drawImage(monsterImage2, this.x, this.y)
+      imageFrame = 1
+    }
   }
 }
 
-//Defines the keyboard strokes so its more understandable
-var keyLeft = 37
-var keyUp = 38
-var keyRight = 39
-var keyDown = 40
+var tokenImage1 = new Image()
+var tokenImage2 = new Image()
+tokenImage1.src = 'images/coin_small.png'
+tokenImage2.src = 'images/coin_small.png'
 
-//Defines the action to take when pressing on keyboard
-document.body.addEventListener('keydown', function (event) {
-  var code = event.keyCode
-  event.preventDefault()
-
-  if (code === keyLeft) {
-    if (xPos > 0) {
-      xPos -= 10
-    }
-  } else if (code === keyUp) {
-    if (yPos > 0) {
-      yPos -= 10
-    }
-  } else if (code === keyRight) {
-    if (xPos + monsterWidth + 10 < maxX) {
-      xPos += 10
-    }
-  } else if (code === keyDown) {
-    if (yPos + monsterHeight + 10 < maxY) {
-      yPos += 10
-    }
+class Token extends Monster {
+  constructor (x, y, image = tokenImage1) {
+    super(x, y, image)
   }
-  //Renders the drawing function which will clear the canvas and draw the objects again
-  render()
-})
+  render () {
+    context.drawImage(this.image, this.x, this.y)
+  }
+}
+
+function setup () {
+  for (var i = 0; i < 10; i++) {
+    var x = (Math.random() * ((maxX-50)-minX)) + minX
+    var y = (Math.random() * ((maxY-50)-minY)) + minY
+    var token = new Token(x, y)
+    actors.push(token)
+  }
+  var monster = new Monster(0, 0)
+  actors.push(monster)
+}
+
+function render () {
+  context.clearRect(0, 0, canvas.width, canvas.height)
+  actors.forEach(monster => {
+    monster.render()
+  })
+  actors.forEach(token => {
+    token.render()
+  })
+}
+
+setup()
+setInterval(render, 16.6667)
