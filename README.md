@@ -12,4 +12,6 @@
 
 - In terms of efficiency in creating and completing a project, focus on creating rough elements and focus on the behaviours of your objects. Then allocate the remaining time to the styling.
 
-- 
+- Formatting of object oriented programming in javascript
+
+- (to be updated)
