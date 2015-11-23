@@ -4,11 +4,12 @@
 
 
 
-[View me on Heroku](http://happyhungrymonster.herokuapp.com/)
+#Game
+[View me on Heroku (underconstruction!)](http://happyhungrymonster.herokuapp.com/)
 
 
-#Key learnings
-- In order to circumvent the issue of clearing canvases, I first tried seperating the monster and coins on different canvas&context, but this will later pose a problem when I try to interact them. Thus we're back on the same canvas.
+##Key learnings
+- In order to circumvent the issue of clearing canvases, I first tried separating the monster and coins on different canvas&context, but this will later pose a problem when I try to interact them. Thus we're back on the same canvas.
 
 - In terms of efficiency in creating and completing a project, focus on creating rough elements and focus on the behaviours of your objects. Then allocate the remaining time to the styling.
 
