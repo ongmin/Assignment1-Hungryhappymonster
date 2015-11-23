@@ -1,4 +1,5 @@
 {
+
   "name": "happyhungrymonster",
   "version": "1.0.0",
   "description": "2D animated game",
@@ -7,7 +8,8 @@
     "start": "npm run build && npm run start-server",
     "start-server": "http-server dist",
     "clean": "rm -rf dist",
-    "build": "npm run clean && mkdir dist && npm run build-html && npm run build-css && npm run build-js",
+    "build": "npm run clean && mkdir dist && npm run build-html && npm run build-css && npm run build-js && npm run build-images",
+    "build-images": "cp game/images/ dist/images/",
     "build-html": "cp game/index.html dist/index.html",
     "build-css": "cp game/game.css dist/game.css",
     "build-js": "browserify game/game.js --outfile dist/game.js --transform babelify",
@@ -39,5 +41,8 @@
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "http-server": "^0.8.5"
+  },
+  "devDependencies": {
+    "babelify": "^7.2.0"
   }
 }
