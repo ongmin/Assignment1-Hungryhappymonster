@@ -1,24 +1,12 @@
-document.addEventListener('keydown', keyDownHandler, false)
-document.addEventListener('keyup', keyUpHandler, false)
+function setupPlayer () {
+  var player = new Player(xPos, yPos)
+  allArray.push(player)
 
-function keyDownHandler (e) {
-  if(e.keyCode === 39) {
-      rightPressed = true
-      alert('Right pressed')
-  }
-  else if(e.keyCode === 37) {
-      leftPressed = true
-      alert('Left pressed')
-  }
-}
+  if (rightPressed) { xPos += monsterWidth }
+  else if (leftPressed) { xPos -= monsterWidth }
+  else if (upPressed) { yPos -= monsterHeight }
+  else if (downPressed) { yPos += monsterHeight }
 
-function keyUpHandler(e) {
-  if(e.keyCode === 39) {
-      rightPressed = false
-      alert('Right not pressed')
-  }
-  else if(e.keyCode === 37) {
-      leftPressed = false
-      alert('Left not pressed')
-  }
+  var i = allArray.indexOf('player')
+  if (i !== -1) { allArray.splice(i, 1) }
 }

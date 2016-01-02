@@ -14,7 +14,7 @@ let yPos = 10
 
 let allArray = []
 
-var token = new Image()
+const token = new Image()
 token.src = 'images/coin_small.png'
 
 var playerReady = false
@@ -25,8 +25,10 @@ player.src = 'images/spikymonster1_left_small.png'
 const monsterWidth = 80
 const monsterHeight = 80
 
-var rightPressed = false
-var leftPressed = false
+let rightPressed = false
+let leftPressed = false
+let upPressed = false
+let downPressed = false
 
 
 class Token {
@@ -45,7 +47,6 @@ class Player {
     this.x = x
     this.y = y
     this.image = image
-    this.speed = 256
   }
   render () {
     context.drawImage(this.image, this.x, this.y)
@@ -53,36 +54,57 @@ class Player {
 }
 
 // Handle keyboard controls
-var keysDown = {}
+document.addEventListener('keydown', keyDownHandler, false)
+document.addEventListener('keyup', keyUpHandler, false)
 
-addEventListener('keydown', function (e) { keysDown[e.keyCode] = true }, false)
-addEventListener('keyup', function (e) { delete keysDown[e.keyCode] }, false)
+//Defines the keyboard strokes so its more understandable
+const keyLeft = 37
+const keyUp = 38
+const keyRight = 39
+const keyDown = 40
 
-function setup () {
+function keyDownHandler (e) {
+  console.log('pressed')
+  if (e.keyCode === keyRight) {
+    rightPressed = true
+  } else if (e.keyCode === keyLeft) {
+    leftPressed = true
+  } else if (e.keyCode === keyUp) {
+    upPressed = true
+  } else if (e.keyCode === keyDown) {
+    downPressed = true
+  }
+}
+
+function keyUpHandler (e) {
+  if (e.keyCode === keyRight) {
+    rightPressed = false
+  } else if (e.keyCode === keyLeft) {
+    leftPressed = false
+  } else if (e.keyCode === keyUp) {
+    upPressed = false
+  } else if (e.keyCode === keyDown) {
+    downPressed = false
+  }
+}
+
+function setupCoin () {
   for (var i = 0; i < 10; i++) {
     var x = (Math.random() * ((maxX - 50) - minX)) + minX
     var y = (Math.random() * ((maxY - 50) - minY)) + minY
     var token = new Token(x, y)
     allArray.push(token)
   }
-
-  var player = new Player(xPos, yPos)
-  allArray.push(player)
 }
 
-var update = function (modifier) {
-	if (38 in keysDown) { // Player holding up
-		yPos -= player.speed * modifier
-	}
-	if (40 in keysDown) { // Player holding down
-		yPos +=player.speed * modifier
-	}
-	if (37 in keysDown) { // Player holding left
-		xPos -= player.speed * modifier
-	}
-	if (39 in keysDown) { // Player holding right
-		xPos += player.speed * modifier
-	}
+function setupPlayer () {
+  var player = new Player(xPos, yPos)
+  allArray.push(player)
+
+  if (rightPressed) { xPos += monsterWidth }
+  else if (leftPressed) { xPos -= monsterWidth }
+  else if (upPressed) { yPos -= monsterHeight }
+  else if (downPressed) { yPos += monsterHeight }
 }
 
 function renderAll () {
@@ -90,15 +112,17 @@ function renderAll () {
   allArray.forEach(character => {
     character.render()
   })
+  var i = allArray.indexOf(player)
+  if (i !== -1) { allArray.splice(i, 1) }
 }
 
 function main () {
-  update()
+  setupPlayer()
   renderAll()
 }
 
-  setup()
-setInterval(main, 1000)
+setupCoin()
+setInterval(main, 100)
 
 // var main = function () {
 // 	var now = Date.now()
