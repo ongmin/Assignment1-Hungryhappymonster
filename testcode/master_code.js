@@ -12,7 +12,7 @@ const minY = 0
 let xPos = 10
 let yPos = 10
 
-let tokenArray = []
+let allArray = []
 let playerArray = []
 
 const token = new Image()
@@ -26,17 +26,17 @@ player.src = 'images/spikymonster1_left_small.png'
 const monsterWidth = 80
 const monsterHeight = 80
 
-let rightPressed, leftPressed, upPressed, downPressed = false
+let rightPressed = false
+let leftPressed = false
+let upPressed = false
+let downPressed = false
 
-let tokensCaught = 0
 
 class Token {
   constructor (x, y, image = token) {
     this.x = x
     this.y = y
     this.image = image
-    this.width = 50
-    this.height = 50
   }
   render () {
     context.drawImage(this.image, this.x, this.y)
@@ -44,13 +44,10 @@ class Token {
 }
 
 class Player {
-  constructor (x, y, image = player, speed = 20) {
+  constructor (x, y, image = player) {
     this.x = x
     this.y = y
     this.image = image
-    this.speed = speed
-    this.width = 80
-    this.height = 80
   }
   render () {
     context.drawImage(this.image, this.x, this.y)
@@ -68,7 +65,7 @@ const keyRight = 39
 const keyDown = 40
 
 function keyDownHandler (e) {
-  // console.log('pressed')
+  console.log('pressed')
   if (e.keyCode === keyRight) {
     rightPressed = true
   } else if (e.keyCode === keyLeft) {
@@ -92,87 +89,49 @@ function keyUpHandler (e) {
   }
 }
 
-function collides (a, b) {
-  return a.x < b.x + b.width &&
-         a.x + a.width > b.x &&
-         a.y < b.y + b.height &&
-         a.y + a.height > b.y
-}
-
-function handleCollisions () {
-  // console.log('handleCollisions')
-  playerArray.forEach(function (player) {
-    tokenArray.forEach(function (token) {
-      if (collides(player, token)) {
-        console.log('Collided 1')
-      }
-    })
-  })
-
-  tokenArray.forEach(function (token) {
-    if (collides(token, player)) {
-      console.log('Collided 2')
-    }
-  })
-}
-
 function setupCoin () {
-  // console.log('setupCoin')
   for (var i = 0; i < 10; i++) {
     var x = (Math.random() * ((maxX - 50) - minX)) + minX
     var y = (Math.random() * ((maxY - 50) - minY)) + minY
     var token = new Token(x, y)
-    tokenArray.push(token)
+    allArray.push(token)
   }
 }
 
 function setupPlayer () {
-  // console.log('setupPlayer')
   var player = new Player(xPos, yPos)
   playerArray.push(player)
 
-  if (rightPressed) { xPos += player.speed }
-  else if (leftPressed) { xPos -= player.speed }
+  if (rightPressed) { xPos += monsterWidth }
+  else if (leftPressed) { xPos -= monsterWidth }
   else if (upPressed) { yPos -= monsterHeight }
   else if (downPressed) { yPos += monsterHeight }
-
-  // if (collides(player, token)) {
-  //   console.log('collision!')
-  //   ++tokensCaught
-  //   token.image = player
-  // }
 }
 
 function clearCanvas () {
-  // console.log('clearCanvas')
   context.clearRect(0, 0, canvas.width, canvas.height)
 }
 
-function renderTokens () {
-  // console.log('renderTokens')
-  tokenArray.forEach(character => {
+function renderCoins () {
+  allArray.forEach(character => {
     character.render()
   })
 }
 
 function renderPlayer () {
-  // console.log('renderPlayer')
   playerArray.forEach(character => {
     character.render()
   })
-  playerArray.splice(0, 1)
 }
 
 function main () {
-  // console.log('main')
   clearCanvas()
-  setupPlayer()
-  renderTokens()
+  renderCoins()
   renderPlayer()
-  handleCollisions()
 }
 
 setupCoin()
+setupPlayer()
 setInterval(main, 100)
 
 // var main = function () {
